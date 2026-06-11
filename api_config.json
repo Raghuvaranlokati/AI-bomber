@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Mock SMS OTP Service",
+    "method": "POST",
+    "url": "https://api.example.com/v1/auth/send-otp",
+    "headers": {
+      "Content-Type": "application/json",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    },
+    "body_template": "{\"phoneNumber\": \"{target}\", \"channel\": \"sms\"}"
+  },
+  {
+    "name": "Mock Verification Service",
+    "method": "GET",
+    "url": "https://api.example.com/v2/verify?phone={target}",
+    "headers": {
+      "Accept": "application/json"
+    },
+    "body_template": null
+  }
+]
