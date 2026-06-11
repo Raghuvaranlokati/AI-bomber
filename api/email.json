@@ -1,0 +1,8 @@
+{
+    "total": 3,
+    "endpoints": [
+        "https://mycredible.info:443/mycredible/signin/request_otp",
+        "https://mycredible.info:443/mycredible/signup",
+        "https://themezee.com/wp-admin/admin-ajax.php?action=mc4wp-form"
+    ]
+}

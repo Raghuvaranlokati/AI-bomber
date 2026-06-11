@@ -1,0 +1,9 @@
+{
+    "total": 4,
+    "endpoints": [
+        "https://api.magicbricks.com/bricks/verifyOnCall.html",
+        "https://www.careers360.com/ajax/no-cache/user/otp-send",
+        "https://www.makaan.com/apis/nc/sendOtpOnCall/16257065/{target}",
+        "https://www.realestateindia.com/mobile-script/indian_mobile_verification_form.php"
+    ]
+}
