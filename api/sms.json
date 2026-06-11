@@ -1,5 +1,5 @@
 {
-    "total": 102,
+    "total": 101,
     "endpoints": [
         "https://3tex.io/api/1/users/validation/mobile",
         "https://3via.ly/api/client/login",
@@ -18,7 +18,6 @@
         "https://api.dream11.com/sendsmslink",
         "https://api.gotinder.com/v2/auth/sms/send",
         "https://api.ivi.ru/mobileapi/user/register/phone/v6",
-        "https://api.ivi.ru/mobileapi/user/register/phone/v6/",
         "https://api.kukala.ir/api/user/Otp",
         "https://api.lendo.ir/api/customer/auth/send-otp",
         "https://api.nnnow.com/d/api/appDownloadLink",
