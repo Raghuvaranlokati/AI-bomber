@@ -11,7 +11,7 @@ from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from backend.task_manager import TaskManager, SchedulerState
+from task_manager import TaskManager, SchedulerState
 from worker import load_config, scheduler_loop
 
 # ── Logging Setup ──────────────────────────────────────────────

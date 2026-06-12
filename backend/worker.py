@@ -68,6 +68,7 @@ def get_endpoints(config: dict, attack_type: str, target: str) -> list[dict]:
 async def send_request(
     session: aiohttp.ClientSession,
     endpoint: dict,
+    log_callback: Optional[Callable] = None,
 ) -> tuple[bool, int, str]:
     """
     Send a single HTTP request based on endpoint config.
