@@ -46,13 +46,17 @@ def get_endpoints(config: dict, attack_type: str, target: str) -> list[dict]:
         resolved_url = entry["url"].replace("{target}", target)
         resolved_headers = {}
         for k, v in entry.get("headers", {}).items():
-            resolved_headers[k] = v.replace("{target}", target) if isinstance(v, str) else v
+            resolved_headers[k] = (
+                v.replace("{target}", target) if isinstance(v, str) else v
+            )
 
         resolved_body = None
         if "body_template" in entry and entry["body_template"]:
             resolved_body = {}
             for k, v in entry["body_template"].items():
-                resolved_body[k] = v.replace("{target}", target) if isinstance(v, str) else v
+                resolved_body[k] = (
+                    v.replace("{target}", target) if isinstance(v, str) else v
+                )
 
         resolved.append({
             "name": entry.get("name", "unknown"),
@@ -85,7 +89,7 @@ async def send_request(
         if method == "GET":
             async with session.get(url, headers=headers, timeout=15) as resp:
                 status = resp.status
-                await resp.read()  # consume response
+                await resp.read()
         elif method == "POST":
             async with session.post(url, headers=headers, json=body, timeout=15) as resp:
                 status = resp.status
@@ -99,7 +103,9 @@ async def send_request(
                 status = resp.status
                 await resp.read()
         else:
-            async with session.request(method, url, headers=headers, json=body, timeout=15) as resp:
+            async with session.request(
+                method, url, headers=headers, json=body, timeout=15
+            ) as resp:
                 status = resp.status
                 await resp.read()
 
@@ -196,7 +202,13 @@ async def scheduler_loop(
 
                 current_endpoint = endpoint["name"]
 
-                success, status_code, msg = await send_request(session, endpoint)
+                # ════════════════════════════════════════════════════════════
+                # FIXED: log_callback is now passed to send_request so per-
+                # request logging via the callback actually works.
+                # ════════════════════════════════════════════════════════════
+                success, status_code, msg = await send_request(
+                    session, endpoint, log_callback=status_callback
+                )
 
                 if success:
                     total_sent += 1
@@ -246,12 +258,15 @@ if __name__ == "__main__":
     print("Press Ctrl+C to stop...\n")
 
     async def run():
-        cancel = asyncio.Event()
+        # FIXED: renamed from 'cancel' to 'cancel_event' for consistency
+        cancel_event = asyncio.Event()
 
         def status_handler(msg):
             if isinstance(msg, dict):
-                print(f"  [{msg['total_sent']} sent | {msg['total_failed']} failed] "
-                      f"Current: {msg['current_endpoint']} -> {msg['last_result']}")
+                print(
+                    f"  [{msg['total_sent']} sent | {msg['total_failed']} failed] "
+                    f"Current: {msg['current_endpoint']} -> {msg['last_result']}"
+                )
             else:
                 print(f"  {msg}")
 
@@ -260,7 +275,7 @@ if __name__ == "__main__":
                 attack_type=attack_type,
                 target=target,
                 delay=delay,
-                cancel_event=cancel,
+                cancel_event=cancel_event,
                 status_callback=status_handler,
             )
         except asyncio.CancelledError:

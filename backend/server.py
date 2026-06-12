@@ -28,7 +28,6 @@ scheduler_task: Optional[asyncio.Task] = None
 websocket_clients: list[WebSocket] = []
 log_queue: asyncio.Queue = asyncio.Queue()
 
-
 # ═══════════════════════════════════════════════════════════════
 # Request / Response Schemas
 # ═══════════════════════════════════════════════════════════════
@@ -38,74 +37,68 @@ class StartRequest(BaseModel):
     attack_type: str = Field(default="sms", pattern=r"^(sms|call|email)$")
     delay: float = Field(default=2.0, ge=0.1, le=30.0)
 
-
 class ConfigUpdateRequest(BaseModel):
     target: Optional[str] = None
     attack_type: Optional[str] = Field(default=None, pattern=r"^(sms|call|email)$")
     delay: Optional[float] = Field(default=None, ge=0.1, le=30.0)
 
-
 # ═══════════════════════════════════════════════════════════════
 # Log Callback (feeds both logger and WebSocket queue)
 # ═══════════════════════════════════════════════════════════════
 
-async def log_callback(message):
+def log_callback(message):
     """
     Callback passed to the worker.
     Receives either a string (log line) or a dict (status update).
+    This is a SYNCHRONOUS function because worker.py calls it without await.
+    Async operations are dispatched via asyncio.create_task.
     """
     if isinstance(message, dict):
         # Status update dict
         log_msg = (
             f"[{message.get('total_sent', 0)} sent | "
             f"{message.get('total_failed', 0)} failed] "
-            f"{message.get('current_endpoint', '')} -> "
+            f"Current: {message.get('current_endpoint', '')} -> "
             f"{message.get('last_result', '')}"
         )
         logger.info(log_msg)
-        await log_queue.put(json.dumps({
+        # Dispatch async WebSocket broadcast without awaiting
+        asyncio.create_task(_broadcast_to_websockets({
             "type": "status",
             "data": message,
         }))
     else:
         # Plain log string
-        logger.info(message)
-        await log_queue.put(json.dumps({
+        logger.info(str(message))
+        asyncio.create_task(_broadcast_to_websockets({
             "type": "log",
             "message": str(message),
         }))
 
 
-# ═══════════════════════════════════════════════════════════════
-# Background Tasks
-# ═══════════════════════════════════════════════════════════════
-
-async def broadcast_logs():
-    """
-    Background coroutine that reads from log_queue and
-    broadcasts to all connected WebSocket clients.
-    """
-    while True:
+async def _broadcast_to_websockets(data: dict):
+    """Send a JSON message to all connected WebSocket clients and the log queue."""
+    msg = json.dumps(data)
+    # Remove dead clients while iterating
+    dead_clients = []
+    for ws in websocket_clients:
         try:
-            msg = await asyncio.wait_for(log_queue.get(), timeout=1.0)
-            dead_clients = []
-            for ws in websocket_clients:
-                try:
-                    await ws.send_text(msg)
-                except Exception:
-                    dead_clients.append(ws)
-            for dead in dead_clients:
-                websocket_clients.remove(dead)
-        except asyncio.TimeoutError:
-            continue
-        except Exception as e:
-            logger.error(f"Broadcast error: {e}")
+            await ws.send_text(msg)
+        except Exception:
+            dead_clients.append(ws)
+    for ws in dead_clients:
+        websocket_clients.remove(ws)
+    await log_queue.put(data)
 
+
+# ═══════════════════════════════════════════════════════════════
+# Worker Wrapper (runs scheduler_loop in an asyncio task)
+# ═══════════════════════════════════════════════════════════════
 
 async def run_worker_wrapper():
     """
-    Wrapper that runs scheduler_loop and handles cleanup.
-    This is the actual asyncio task that gets launched.
+    Wrapper that runs scheduler_loop with the current manager configuration.
+    Managed as a single asyncio task so it can be cancelled on stop.
     """
     try:
         await scheduler_loop(
@@ -117,62 +110,49 @@ async def run_worker_wrapper():
             status_callback=log_callback,
         )
     except asyncio.CancelledError:
-        logger.info("Worker task cancelled")
+        logger.info("Scheduler task was cancelled")
     except Exception as e:
-        logger.exception(f"Worker task crashed: {e}")
-        await log_callback(f"[ERROR] Worker crashed: {e}")
+        logger.error(f"Scheduler task failed with error: {e}")
+        manager.stop()
+        asyncio.create_task(_broadcast_to_websockets({
+            "type": "log",
+            "message": f"[!] Scheduler error: {e}",
+        }))
     finally:
-        manager._state = SchedulerState.IDLE
-        await log_callback("[IDLE] Worker stopped")
+        manager.stop()
 
 
 # ═══════════════════════════════════════════════════════════════
-# Lifespan
+# App Lifespan (startup / shutdown)
 # ═══════════════════════════════════════════════════════════════
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Start background broadcaster on startup, clean up on shutdown."""
-    global scheduler_task
-
-    broadcast_task = asyncio.create_task(broadcast_logs())
+    """Handle startup and shutdown events."""
     logger.info("Server starting up...")
-
     yield
-
     # Shutdown
     logger.info("Server shutting down...")
-    broadcast_task.cancel()
-
     if scheduler_task and not scheduler_task.done():
+        manager.stop()
         scheduler_task.cancel()
         try:
-            await scheduler_task
-        except asyncio.CancelledError:
+            await asyncio.wait_for(scheduler_task, timeout=5.0)
+        except (asyncio.TimeoutError, asyncio.CancelledError):
             pass
-
-    # Close all WebSocket connections
-    for ws in websocket_clients[:]:
-        try:
-            await ws.close()
-        except Exception:
-            pass
-    websocket_clients.clear()
-
-    logger.info("Server shut down complete")
 
 
 # ═══════════════════════════════════════════════════════════════
-# App Initialization
+# FastAPI Application
 # ═══════════════════════════════════════════════════════════════
 
 app = FastAPI(
     title="API Request Scheduler",
-    description="Round-robin HTTP request scheduler for rate-limit testing",
-    version="1.0.0",
+    version="1.0",
     lifespan=lifespan,
 )
 
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -188,54 +168,32 @@ app.add_middleware(
 
 @app.get("/")
 async def root():
-    """Root endpoint with service info."""
+    """Service info."""
     return {
         "service": "API Request Scheduler",
-        "version": "1.0.0",
-        "status": manager.state.value,
+        "version": "1.0",
         "docs": "/docs",
-        "openapi": "/openapi.json",
+        "status": manager.state.value,
     }
 
 
 @app.get("/status")
 async def get_status():
-    """Get the current scheduler status."""
+    """Get current scheduler status."""
     return manager.get_status_dict()
 
 
 @app.post("/start")
-async def start(req: StartRequest):
-    """
-    Start the scheduler.
-    - target: phone number or email to send requests to
-    - attack_type: 'sms', 'call', or 'email'
-    - delay: seconds between requests (0.1 - 30.0)
-    """
+async def start_scheduler(req: StartRequest):
+    """Start the scheduler with given target, attack type, and delay."""
     global scheduler_task
 
     if manager.state == SchedulerState.RUNNING:
         raise HTTPException(409, "Scheduler is already running. Stop it first.")
 
-    if manager.state == SchedulerState.PAUSED:
-        raise HTTPException(409, "Scheduler is paused. Use /resume to continue.")
-
-    # Configure the manager
-    manager.prepare_start(
-        target=req.target,
-        attack_type=req.attack_type,
-        delay=req.delay,
-    )
-
-    # Transition to running
+    manager.prepare_start(req.target, req.attack_type, req.delay)
     manager.start()
-
-    # Launch the worker in background
     scheduler_task = asyncio.create_task(run_worker_wrapper())
-
-    logger.info(
-        f"Started: target={req.target}, type={req.attack_type}, delay={req.delay}s"
-    )
 
     return {
         "message": "Scheduler started",
@@ -244,26 +202,14 @@ async def start(req: StartRequest):
 
 
 @app.post("/stop")
-async def stop():
-    """Stop the scheduler immediately."""
-    global scheduler_task
+async def stop_scheduler():
+    """Stop the scheduler."""
+    if manager.state not in (SchedulerState.RUNNING, SchedulerState.PAUSED):
+        raise HTTPException(409, "Scheduler is not running.")
 
-    if manager.state == SchedulerState.IDLE:
-        return {"message": "Scheduler is not running", "status": manager.get_status_dict()}
-
-    # Send stop signal
     manager.stop()
-
-    # Cancel the background task if still running
     if scheduler_task and not scheduler_task.done():
         scheduler_task.cancel()
-        try:
-            await scheduler_task
-        except asyncio.CancelledError:
-            pass
-        scheduler_task = None
-
-    logger.info("Scheduler stopped")
 
     return {
         "message": "Scheduler stopped",
@@ -272,13 +218,12 @@ async def stop():
 
 
 @app.post("/pause")
-async def pause():
-    """Pause the scheduler. Current request completes, then pauses."""
+async def pause_scheduler():
+    """Pause the scheduler."""
     if manager.state != SchedulerState.RUNNING:
-        raise HTTPException(409, "Scheduler is not running (use /start first)")
+        raise HTTPException(409, "Scheduler is not running.")
 
     manager.pause()
-
     return {
         "message": "Scheduler paused",
         "status": manager.get_status_dict(),
@@ -286,13 +231,12 @@ async def pause():
 
 
 @app.post("/resume")
-async def resume():
-    """Resume the scheduler from paused state."""
+async def resume_scheduler():
+    """Resume a paused scheduler."""
     if manager.state != SchedulerState.PAUSED:
-        raise HTTPException(409, "Scheduler is not paused (use /pause first)")
+        raise HTTPException(409, "Scheduler is not paused.")
 
     manager.resume()
-
     return {
         "message": "Scheduler resumed",
         "status": manager.get_status_dict(),
@@ -301,10 +245,7 @@ async def resume():
 
 @app.post("/config")
 async def update_config(update: ConfigUpdateRequest):
-    """
-    Update configuration without restarting.
-    Changes take effect on the next request cycle.
-    """
+    """Update scheduler configuration without restarting."""
     if update.target is not None:
         manager.target = update.target
     if update.attack_type is not None:
@@ -360,7 +301,9 @@ async def list_endpoints():
 async def reset_counters():
     """Reset sent/failed counters to zero."""
     if manager.state == SchedulerState.RUNNING:
-        raise HTTPException(409, "Cannot reset counters while scheduler is running. Stop first.")
+        raise HTTPException(
+            409, "Cannot reset counters while scheduler is running. Stop first."
+        )
 
     manager.reset_counters()
 
@@ -400,10 +343,12 @@ async def websocket_endpoint(websocket: WebSocket):
     websocket_clients.append(websocket)
 
     # Send initial status immediately on connect
-    await websocket.send_text(json.dumps({
-        "type": "status",
-        "data": manager.get_status_dict(),
-    }))
+    await websocket.send_text(
+        json.dumps({
+            "type": "status",
+            "data": manager.get_status_dict(),
+        })
+    )
 
     logger.info(f"WebSocket client connected (total: {len(websocket_clients)})")
 
@@ -418,63 +363,76 @@ async def websocket_endpoint(websocket: WebSocket):
                     await websocket.send_text(json.dumps({"type": "pong"}))
 
                 elif action == "get_status":
-                    await websocket.send_text(json.dumps({
-                        "type": "status",
-                        "data": manager.get_status_dict(),
-                    }))
+                    await websocket.send_text(
+                        json.dumps({
+                            "type": "status",
+                            "data": manager.get_status_dict(),
+                        })
+                    )
 
                 elif action == "start":
-                    # Handle start via WebSocket
                     target = cmd.get("target", "")
                     attack_type = cmd.get("attack_type", "sms")
                     delay = float(cmd.get("delay", 2.0))
 
                     if not target:
-                        await websocket.send_text(json.dumps({
-                            "type": "error",
-                            "message": "target is required",
-                        }))
+                        await websocket.send_text(
+                            json.dumps({
+                                "type": "error",
+                                "message": "target is required",
+                            })
+                        )
                         continue
 
                     global scheduler_task
                     if manager.state == SchedulerState.RUNNING:
-                        await websocket.send_text(json.dumps({
-                            "type": "error",
-                            "message": "Already running",
-                        }))
+                        await websocket.send_text(
+                            json.dumps({
+                                "type": "error",
+                                "message": "Already running",
+                            })
+                        )
                         continue
 
                     manager.prepare_start(target, attack_type, delay)
                     manager.start()
                     scheduler_task = asyncio.create_task(run_worker_wrapper())
 
-                    await websocket.send_text(json.dumps({
-                        "type": "status",
-                        "data": manager.get_status_dict(),
-                    }))
+                    await websocket.send_text(
+                        json.dumps({
+                            "type": "status",
+                            "data": manager.get_status_dict(),
+                        })
+                    )
 
                 elif action == "stop":
                     manager.stop()
-                    await websocket.send_text(json.dumps({
-                        "type": "status",
-                        "data": manager.get_status_dict(),
-                    }))
+                    await websocket.send_text(
+                        json.dumps({
+                            "type": "status",
+                            "data": manager.get_status_dict(),
+                        })
+                    )
 
                 elif action == "pause":
                     if manager.state == SchedulerState.RUNNING:
                         manager.pause()
-                    await websocket.send_text(json.dumps({
-                        "type": "status",
-                        "data": manager.get_status_dict(),
-                    }))
+                    await websocket.send_text(
+                        json.dumps({
+                            "type": "status",
+                            "data": manager.get_status_dict(),
+                        })
+                    )
 
                 elif action == "resume":
                     if manager.state == SchedulerState.PAUSED:
                         manager.resume()
-                    await websocket.send_text(json.dumps({
-                        "type": "status",
-                        "data": manager.get_status_dict(),
-                    }))
+                    await websocket.send_text(
+                        json.dumps({
+                            "type": "status",
+                            "data": manager.get_status_dict(),
+                        })
+                    )
 
             except json.JSONDecodeError:
                 pass
@@ -486,7 +444,9 @@ async def websocket_endpoint(websocket: WebSocket):
     finally:
         if websocket in websocket_clients:
             websocket_clients.remove(websocket)
-        logger.info(f"WebSocket client disconnected (total: {len(websocket_clients)})")
+        logger.info(
+            f"WebSocket client disconnected (total: {len(websocket_clients)})"
+        )
 
 
 # ═══════════════════════════════════════════════════════════════
